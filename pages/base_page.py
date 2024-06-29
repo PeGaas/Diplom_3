@@ -36,3 +36,6 @@ class BasePage:
 
     def element_to_be_present_in_page(self, element):
         Wait(self.driver, 10).until(EC.presence_of_element_located(element))
+
+    def text_to_be_present_in_element_attribute(self, element, attribute, text):
+        Wait(self.driver, 10).until(EC.text_to_be_present_in_element_attribute(element, attribute, text))

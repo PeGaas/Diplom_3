@@ -11,5 +11,9 @@ CREATE_ORDER_API = '/api/orders'
 GET_INGREDIENTS_API = '/api/ingredients'
 GET_ORDERS_USER = '/api/orders/all'
 
+EMAIL_USER = 'petergaas8126@yandex.ru'
+PASSWORD_USER = '123456'
+NAME_USER = 'Pert Gaas'
+
 
 

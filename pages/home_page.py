@@ -1,4 +1,6 @@
 import allure
+
+from data_static import EMAIL_USER, PASSWORD_USER
 from locators.home_page_locators import PERSONAL_ACCOUNT, ORDER_FEED, INGREDIENT, MODAL_CLOSE, BUTTON_PLACE_ORDER
 from locators.login_page_locators import EMAIL, PASSWORD, BUTTON_ENTER
 from pages.base_page import BasePage
@@ -28,11 +30,11 @@ class HomePage(BasePage):
 
     @allure.step('Ввести адрес электронной почты в поле Email')
     def input_email(self):
-        self.input_text(EMAIL, 'petergaas8126@yandex.ru')
+        self.input_text(EMAIL, EMAIL_USER)
 
     @allure.step('Ввести пароль в поле Пароль')
     def input_password(self):
-        self.input_text(PASSWORD, '123456')
+        self.input_text(PASSWORD, PASSWORD_USER)
 
     @allure.step('Нажать на кнопку Войти')
     def click_button_enter(self):

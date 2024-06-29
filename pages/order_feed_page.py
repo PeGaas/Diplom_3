@@ -1,8 +1,7 @@
-import time
 import allure
-from locators.home_page_locators import PERSONAL_ACCOUNT, ORDER_FEED, INGREDIENT, MODAL_CLOSE, BUTTON_PLACE_ORDER
-from locators.login_page_locators import EMAIL, PASSWORD, BUTTON_ENTER
-from locators.order_feed_page_locators import ORDER
+from locators.home_page_locators import ORDER_FEED
+
+from locators.order_feed_page_locators import ORDER, ORDER_IN_WORK
 from pages.base_page import BasePage
 
 
@@ -21,6 +20,6 @@ class OrderFeedPage(BasePage):
         self.click_to_element(ORDER)
 
     @allure.step('Ожидать появления заказа в работе')
-    def wait_number_order_in_work(self):
-        time.sleep(3)
+    def wait_number_order_in_work(self, attribute, class_name):
+        self.text_to_be_present_in_element_attribute(ORDER_IN_WORK, attribute, class_name)
 

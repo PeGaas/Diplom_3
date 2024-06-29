@@ -1,4 +1,6 @@
 import allure
+
+from data_generator import generate_password
 from data_static import FORGOT_PASSWORD_URL, RESET_PASSWORD_URL
 from locators.forgot_password_page_locators import CLASS_ACTIVE
 from pages.forgot_password_page import ForgotPasswordPage
@@ -36,7 +38,7 @@ class TestForgotPasswordPage:
         forgot_password_page.input_email()
         forgot_password_page.click_button_recover()
         forgot_password_page.wait_url_contains(RESET_PASSWORD_URL)
-        forgot_password_page.input_password()
+        forgot_password_page.input_password(generate_password())
         forgot_password_page.click_show_password()
 
         assert 'input_status_active' in forgot_password_page.find_element(CLASS_ACTIVE).get_attribute("class")

@@ -1,7 +1,8 @@
 import pytest
 import requests
 from selenium import webdriver
-from data_static import MAIN_URL, LOGIN_USER_API, CREATE_ORDER_API, GET_INGREDIENTS_API, GET_ORDERS_USER
+from data_static import MAIN_URL, LOGIN_USER_API, CREATE_ORDER_API, GET_INGREDIENTS_API, GET_ORDERS_USER, EMAIL_USER, \
+    PASSWORD_USER, NAME_USER
 
 
 @pytest.fixture()
@@ -14,11 +15,17 @@ def chrome_driver():
 
 
 @pytest.fixture()
-def api_login_user_and_create_order():
-    ingredients = []
+def api_login_user():
     # Авторизация пользователя
-    payload = {"email": 'petergaas8126@yandex.ru', "password": '123456', "name": 'Pert Gaas'}
+    payload = {"email": EMAIL_USER, "password": PASSWORD_USER, "name": NAME_USER}
     response_user = requests.post(f'{MAIN_URL}{LOGIN_USER_API}', data=payload)
+
+    yield response_user
+
+
+@pytest.fixture()
+def api_create_order_authorized_user(api_login_user):
+    ingredients = []
 
     # Получить список ингридиентов
     response = requests.get(f'{MAIN_URL}{GET_INGREDIENTS_API}')
@@ -28,18 +35,16 @@ def api_login_user_and_create_order():
 
     # Создать заказ
     payload = {"ingredients": ingredients}
-    response = requests.post(f'{MAIN_URL}{CREATE_ORDER_API}', data=payload, headers={'Authorization': response_user.json()['accessToken']})
+    response_order = requests.post(f'{MAIN_URL}{CREATE_ORDER_API}', data=payload,
+                                   headers={'Authorization': api_login_user.json()['accessToken']})
 
-    yield response
+    yield response_order
 
 
 @pytest.fixture()
-def api_get_orders_user():
-    # Авторизация пользователя
-    payload = {"email": 'petergaas8126@yandex.ru', "password": '123456', "name": 'Pert Gaas'}
-    response_user = requests.post(f'{MAIN_URL}{LOGIN_USER_API}', data=payload)
-
+def api_get_orders_user(api_login_user):
     # Получить список заказов
-    response = requests.get(f'{MAIN_URL}{GET_ORDERS_USER}', headers={'Authorization': response_user.json()['accessToken']})
+    response = requests.get(f'{MAIN_URL}{GET_ORDERS_USER}',
+                            headers={'Authorization': api_login_user.json()['accessToken']})
 
     yield response
